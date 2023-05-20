@@ -4,8 +4,8 @@ use std::sync::{
     atomic::{AtomicUsize, Ordering},
     Arc,
 };
-
-use futures::{future::FutureExt, select_biased};
+use futures::select_biased;
+use futures::{future::FutureExt};
 use tbot::{types::parameters, Bot};
 use tokio::{
     self,
@@ -217,7 +217,7 @@ impl FetchQueue {
     async fn next(&mut self) -> Result<Feed, time::error::Error> {
         loop {
             if let Some(feed_id) = self.notifies.next().await {
-                let feed = self.feeds.remove(feed_id?.get_ref()).unwrap();
+                let feed = self.feeds.remove(feed_id.get_ref()).unwrap();
                 break Ok(feed);
             } else {
                 self.wakeup.notified().await;
