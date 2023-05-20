@@ -7,6 +7,8 @@ on:
 
 jobs:
   create-release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create-release.outputs.upload_url }}
@@ -30,6 +32,8 @@ jobs:
         prerelease: false
 
   build-release:
+    permissions:
+      contents: write
     needs: create-release
     runs-on: ubuntu-latest
     strategy:
